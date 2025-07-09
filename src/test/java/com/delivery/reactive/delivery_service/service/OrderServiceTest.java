@@ -53,7 +53,7 @@ class OrderServiceTest {
                 .exchangeToMono(any()))
                 .thenReturn(Mono.just(true));
 
-        // Simular entityTemplate.insert(...).using(order)
+
         ReactiveInsertOperation.ReactiveInsert<Order> insertMock = mock(ReactiveInsertOperation.ReactiveInsert.class);
         when(insertMock.using(any(Order.class))).thenReturn(Mono.just(createdOrder));
         when(entityTemplate.insert(Order.class)).thenReturn(insertMock);
