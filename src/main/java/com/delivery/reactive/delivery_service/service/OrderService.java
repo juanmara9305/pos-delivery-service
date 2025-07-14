@@ -6,7 +6,6 @@ import com.delivery.reactive.delivery_service.model.Order;
 import com.delivery.reactive.delivery_service.repository.OrderRepository;
 import java.time.LocalDateTime;
 import java.util.UUID;
-import lombok.RequiredArgsConstructor;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -15,12 +14,20 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 
 @Service
-@RequiredArgsConstructor
 public class OrderService {
 
   private final OrderRepository orderRepository;
   private final R2dbcEntityTemplate r2dbcEntityTemplate;
   private final WebClient customerClient;
+
+  public OrderService(
+      OrderRepository orderRepository,
+      R2dbcEntityTemplate r2dbcEntityTemplate,
+      WebClient customerClient) {
+    this.orderRepository = orderRepository;
+    this.r2dbcEntityTemplate = r2dbcEntityTemplate;
+    this.customerClient = customerClient;
+  }
 
   public Mono<OrderResponseDTO> createOrder(OrderRequestDTO dto) {
     return validateCustomer(dto.getCustomerId())
